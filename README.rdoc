@@ -1,6 +1,12 @@
 = ios-cert-enrollment
 
-Description goes here.
+Sign and distribute iOS Enrollment certificates using your server's SSL Certificate
+
+IOSCertEnrollment.configure do |config|
+  config.ssl_certificate_path = "PATH TO YOUR CERTIFICATE"
+  config.ssl_key = "PATH TO YOUR CERTIFICATE KEY"
+end
+
 
 == Contributing to ios-cert-enrollment
  
