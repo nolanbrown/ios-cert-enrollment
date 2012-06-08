@@ -69,7 +69,7 @@ module IOSCertEnrollment
       (unix_serial.length - 12).abs.times {
         unix_serial << "0"
       }
-      cert.serial = unix_serial
+      cert.serial = unix_serial.to_i
       cert.subject = request.subject
       cert.issuer = SSL.certificate.subject
       cert.public_key = request.public_key
