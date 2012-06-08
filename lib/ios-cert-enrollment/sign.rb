@@ -64,7 +64,12 @@ module IOSCertEnrollment
       # New Certificate
       cert = OpenSSL::X509::Certificate.new
       cert.version = 2
-      cert.serial = 1
+      
+      unix_serial = Time.now.to_f.round(2).to_s.gsub(".","")
+      (unix_serial.length - 12).abs.times {
+        unix_serial << "0"
+      }
+      cert.serial = unix_serial
       cert.subject = request.subject
       cert.issuer = SSL.certificate.subject
       cert.public_key = request.public_key

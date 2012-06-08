@@ -2,7 +2,7 @@
 require File.join([File.dirname(__FILE__),'lib','ios-cert-enrollment.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'ios-cert-enrollment'
-  s.version = IOSCertEnrollment::VERSION
+  s.version = "0.0.3"
   s.author = 'Nolan Brown'
   s.email = 'nolanbrown@gmail.com'
   s.homepage = 'http://github.com/nolanbrown'
@@ -21,7 +21,7 @@ lib/ios-cert-enrollment/ssl.rb
 lib/ios-cert-enrollment/version.rb
   )
   s.require_paths << 'lib'
-  s.rdoc_options << '--title' << 'iOS Portal' << '--main' #<< 'README.rdoc' << '-ri'
+  s.rdoc_options << '--title' << 'iOS Configuration Profiles' << '--main' #<< 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
