@@ -58,31 +58,41 @@ module IOSCertEnrollment
     end
 
 
-    def webclip
+    def signed_webclip(certificates)
 
-        webclip_payload = general_payload()
-
-        webclip_payload['PayloadIdentifier'] = self.identifier+".webclip.tester"
-        webclip_payload['PayloadType'] = "com.apple.webClip.managed" # do not modify
+        content_payload = general_payload()
+        content_payload['PayloadIdentifier'] = self.identifier+".webclip.intranet"
+        content_payload['PayloadType'] = "com.apple.webClip.managed" # do not modify
 
         # strings that show up in UI, customisable
-        webclip_payload['PayloadDisplayName'] = self.display_name
-        webclip_payload['PayloadDescription'] = self.description
+        content_payload['PayloadDisplayName'] = self.display_name
+        content_payload['PayloadDescription'] = self.description
 
         # allow user to remove webclip
-        webclip_payload['IsRemovable'] = true
-        webclip_payload['FullScreen'] = true
-        webclip_payload['Icon'] = self.icon
-        webclip_payload['Precomposed'] = true
+        content_payload['IsRemovable'] = true
+        content_payload['Icon'] = self.icon
         # the link
-        webclip_payload['Label'] = self.display_name
-        webclip_payload['URL'] = self.url
-
-        #client_cert_payload = scep_cert_payload(request, "Client Authentication", "foo");
-
-        self.payload = Plist::Emit.dump(payload)
-        return self
+        content_payload['Label'] = self.display_name
+        content_payload['URL'] = self.url
         
+        plist_content_payload = Plist::Emit.dump(content_payload)
+        encrypted_profile = OpenSSL::PKCS7.encrypt(certificates, plist_content_payload, OpenSSL::Cipher::Cipher::new("des-ede3-cbc"), OpenSSL::PKCS7::BINARY)
+        encrypted_content = encrypted_profile.to_der
+
+        
+        
+        payload = general_payload()
+        payload['PayloadIdentifier'] = self.identifier+".intranet"
+        payload['PayloadType'] = "Configuration" # do not modify
+
+        # strings that show up in UI, customisable
+        payload['PayloadDisplayName'] = self.display_name
+        payload['PayloadDescription'] = self.description
+        payload['PayloadExpirationDate'] = self.expiration || Date.today + (360 * 10) 
+
+        payload['EncryptedPayloadContent'] = StringIO.new(encrypted_content)
+        self.payload = Plist::Emit.dump(payload)
+        return self.sign
     end
 
 
@@ -100,8 +110,8 @@ module IOSCertEnrollment
         payload['EncryptedPayloadContent'] = StringIO.new(encrypted_content)
         self.payload = Plist::Emit.dump(payload)
         return self
-        
     end
+    
     
     def sign
       signed_profile = OpenSSL::PKCS7.sign(SSL.certificate, SSL.key,  self.payload, [], OpenSSL::PKCS7::BINARY)
