@@ -2,10 +2,10 @@
 require File.join([File.dirname(__FILE__),'lib','ios-cert-enrollment.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'ios-cert-enrollment'
-  s.version = "0.0.7"
+  s.version = "0.0.8"
   s.author = 'Nolan Brown'
   s.email = 'nolanbrown@gmail.com'
-  s.homepage = 'http://github.com/nolanbrown'
+  s.homepage = 'https://github.com/nolanbrown/ios-cert-enrollment'
   s.platform = Gem::Platform::RUBY
   s.summary = 'SCEP server for iOS Configuration Profiles'
   s.description = 'Easy tools to implement a SCEP server for iOS Configuration Profiles'

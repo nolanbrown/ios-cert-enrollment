@@ -2,14 +2,9 @@
 
 Sign and distribute iOS Enrollment certificates using your server's SSL Certificate
 
-    IOSCertEnrollment.configure do |config|
-        config.ssl_certificate_path = "PATH TO YOUR CERTIFICATE"
-        config.ssl_key = "PATH TO YOUR CERTIFICATE KEY"
-    end
-
-
 == Usage
 
+See the example-server directory for usage including available parameters. It can't be run out of the box and requires a SSL certificate.
 
     TODO: Write SSL generation script
     TODO: Write implementation instructions
@@ -17,6 +12,5 @@ Sign and distribute iOS Enrollment certificates using your server's SSL Certific
 
 == Copyright
 
-Copyright (c) 2012 Nolan B.. See LICENSE for
-further details.
+Copyright (c) 2012 Nolan B.. See LICENSE for further details.
 

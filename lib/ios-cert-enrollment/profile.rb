@@ -4,7 +4,7 @@ require "uuidtools"
 require "plist"
 module IOSCertEnrollment
   class Profile
-    attr_accessor :url, :identifier, :display_name, :description, :icon, :payload, :organization, :expiration
+    attr_accessor :url, :identifier, :display_name, :description, :icon, :payload, :organization, :expiration, :label
     def initialize(url="")
       self.url = IOSCertEnrollment.base_url + url
       self.identifier = IOSCertEnrollment.identifier
@@ -12,7 +12,7 @@ module IOSCertEnrollment
       self.organization = IOSCertEnrollment.organization
       self.description = ""
       self.expiration = nil
-      
+      self.icon = nil
     end
     
     def service
@@ -58,46 +58,27 @@ module IOSCertEnrollment
     end
 
 
-    def signed_webclip(certificates, display_name="WebClip", icon=nil)
+    def webclip
 
         content_payload = general_payload()
         content_payload['PayloadIdentifier'] = self.identifier+".webclip.intranet"
         content_payload['PayloadType'] = "com.apple.webClip.managed" # do not modify
 
         # strings that show up in UI, customisable
-        content_payload['PayloadDisplayName'] = display_name 
+        content_payload['PayloadDisplayName'] = self.display_name 
         content_payload['PayloadDescription'] = self.description
 
         # allow user to remove webclip
         content_payload['IsRemovable'] = true
         content_payload['Precomposed'] = true
         
-        content_payload['Icon'] = icon if icon
+        content_payload['Icon'] = self.icon if self.icon
         # the link
-        content_payload['Label'] = display_name 
+        content_payload['Label'] = self.label 
         content_payload['URL'] = self.url
         
-        plist_content_payload = Plist::Emit.dump([content_payload])
-        puts plist_content_payload
-        
-        encrypted_profile = OpenSSL::PKCS7.encrypt(certificates, plist_content_payload, OpenSSL::Cipher::Cipher::new("des-ede3-cbc"), OpenSSL::PKCS7::BINARY)
-        encrypted_content = encrypted_profile.to_der
-
-        
-        
-        payload = general_payload()
-        payload['PayloadIdentifier'] = self.identifier+".intranet"
-        payload['PayloadType'] = "Configuration" # do not modify
-
-        # strings that show up in UI, customisable
-        payload['PayloadDisplayName'] = self.display_name
-        payload['PayloadDescription'] = self.description
-        #payload['PayloadExpirationDate'] = self.expiration || Date.today + (360 * 10) 
-
-        payload['EncryptedPayloadContent'] = StringIO.new(encrypted_content)
-        self.payload = Plist::Emit.dump(payload)
-        puts self.payload
-        return self.sign
+        self.payload = Plist::Emit.dump([content_payload])
+        return self
     end
 
 
