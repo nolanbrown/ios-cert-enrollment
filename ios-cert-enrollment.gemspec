@@ -2,7 +2,7 @@
 require File.join([File.dirname(__FILE__),'lib','ios-cert-enrollment.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'ios-cert-enrollment'
-  s.version = "0.0.6"
+  s.version = "0.0.7"
   s.author = 'Nolan Brown'
   s.email = 'nolanbrown@gmail.com'
   s.homepage = 'http://github.com/nolanbrown'

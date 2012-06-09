@@ -10,10 +10,10 @@ Sign and distribute iOS Enrollment certificates using your server's SSL Certific
 
 == Usage
 
-Currently fails on last step of sending down a webclip configuration profile.
 
     TODO: Write SSL generation script
     TODO: Write implementation instructions
+    TODO: Write tests
 
 == Copyright
 
