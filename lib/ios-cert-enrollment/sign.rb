@@ -9,10 +9,7 @@ module IOSCertEnrollment
        
     class << self    
       def registration_authority    
-        scep_certs = OpenSSL::PKCS7.new()
-        scep_certs.type="signed"
-        scep_certs.certificates=[SSL.certificate,SSL.certificate]
-        return Certificate.new(scep_certs.to_der, "application/x-x509-ca-ra-cert")
+        return Certificate.new(SSL.certificate.to_der, "application/x-x509-ca-cert")
       end
       
       def certificate_authority_caps
