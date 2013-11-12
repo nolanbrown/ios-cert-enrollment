@@ -28,8 +28,7 @@ webrick_options = {
         :SSLCertName        => [ [ "CN",WEBrick::Utils::getservername ] ]
 }
 
-class NBServer  < Sinatra::Base
-
+class MyServer < Sinatra::Base
 
   get '/' do
     '<a href="/enroll">Enroll</a>'
